@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { upperCase } from './test.remote';
+
+	let value = $state('Initial Value');
+</script>
+
+<input bind:value />
+<button onclick={async () => (value = await upperCase(value))}>To Uppercase</button>
