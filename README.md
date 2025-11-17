@@ -18,7 +18,7 @@
 
 ### Desktop App
 
-1. `cargo tauri build`
+1. `PUBLIC_BACKEND_ENDPOINT="http://localhost:5173" cargo tauri build`
 
 ### Server / Web Version
 
