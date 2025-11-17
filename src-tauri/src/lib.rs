@@ -2,7 +2,15 @@ use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // BUGFIX: use port 5173 in cargo run dev
+    // NOTE: this will break cargo run build --debug
+    #[cfg(debug_assertions)]
+    let port: u16 = 5173;
+
+    // BUGFIX: use port 9527 in cargo run build
+    #[cfg(not(debug_assertions))]
     let port: u16 = 9527;
+
     tauri::Builder::default()
         .plugin(tauri_plugin_localhost::Builder::new(port).build())
         .setup(move |app| {
