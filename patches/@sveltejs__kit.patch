@@ -1,0 +1,18 @@
+diff --git a/src/runtime/server/respond.js b/src/runtime/server/respond.js
+index 9067418bc450a126906c62945e1bd4cf818405ea..39c4cc46b44a0b6ceafcc835a74a7f7992a33756 100644
+--- a/src/runtime/server/respond.js
++++ b/src/runtime/server/respond.js
+@@ -77,12 +77,7 @@ export async function internal_respond(request, options, manifest, state) {
+ 	if (!DEV) {
+ 		const request_origin = request.headers.get('origin');
+ 
+-		if (remote_id) {
+-			if (request.method !== 'GET' && request_origin !== url.origin) {
+-				const message = 'Cross-site remote requests are forbidden';
+-				return json({ message }, { status: 403 });
+-			}
+-		} else if (options.csrf_check_origin) {
++		if (options.csrf_check_origin) {
+ 			const forbidden =
+ 				is_form_content_type(request) &&
+ 				(request.method === 'POST' ||

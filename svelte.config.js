@@ -9,9 +9,25 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter:
-			process.env.ADAPTER == 'static' ? adapterStatic({ fallback: 'index.html' }) : adapterNode(),
+			process.env.ADAPTER == 'static'
+				? adapterStatic({
+						fallback: 'index.html',
+						pages: 'build-static',
+						assets: 'build-static'
+					})
+				: adapterNode({
+						out: 'build-node'
+					}),
 		experimental: {
 			remoteFunctions: true
+		},
+		csrf: {
+			trustedOrigins: [
+				'https://localhost:9527',
+				'http://localhost:9527',
+				'https://localhost:5173',
+				'http://localhost:5173'
+			]
 		}
 	},
 	compilerOptions: {

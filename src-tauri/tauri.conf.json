@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"identifier": "com.dskmgr.app",
 	"build": {
-		"frontendDist": "../build",
+		"frontendDist": "../build-static",
 		"devUrl": "http://localhost:5173",
 		"beforeDevCommand": "npm start",
 		"beforeBuildCommand": "npm run build:static"

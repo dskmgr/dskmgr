@@ -18,7 +18,8 @@
 
 ### Desktop App
 
-1. `PUBLIC_BACKEND_ENDPOINT="http://localhost:5173" cargo tauri build`
+1. `PUBLIC_BACKEND_ENDPOINT="http://localhost:6283" cargo tauri build`
+1. `npm run build:node && PORT=6283 node build-node`
 
 ### Server / Web Version
 
