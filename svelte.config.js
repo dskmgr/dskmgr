@@ -28,6 +28,9 @@ const config = {
 				'https://localhost:5173',
 				'http://localhost:5173'
 			]
+		},
+		serviceWorker: {
+			register: process.env.ADAPTER == 'static'
 		}
 	},
 	compilerOptions: {
