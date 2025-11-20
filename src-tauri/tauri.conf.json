@@ -2,7 +2,7 @@
 	"$schema": "https://schema.tauri.app/config/2",
 	"productName": "dskmgr",
 	"version": "0.1.0",
-	"identifier": "com.dskmgr.app",
+	"identifier": "com.dskmgr.desktop",
 	"build": {
 		"frontendDist": "../build-static",
 		"devUrl": "http://localhost:5173",
