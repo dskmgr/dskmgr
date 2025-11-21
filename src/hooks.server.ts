@@ -1,5 +1,9 @@
 import type { Handle } from '@sveltejs/kit';
 
+process.on('SIGINT', function () {
+	process.exit();
+});
+
 const ALLOWED_ORIGINS = [
 	'http://localhost:5173',
 	'http://localhost:6283',
