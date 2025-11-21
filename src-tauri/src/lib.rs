@@ -2,26 +2,36 @@ use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // BUGFIX: use port 5173 in cargo run dev
-    // NOTE: this will break cargo run build --debug
-    #[cfg(debug_assertions)]
-    let port: u16 = 5173;
+    let is_dev = cfg!(debug_assertions);
 
-    // BUGFIX: use port 9527 in cargo run build
-    #[cfg(not(debug_assertions))]
-    let port: u16 = 9527;
+    let mut builder = tauri::Builder::default();
+    let port = if is_dev { 5173 } else { 9527 };
 
-    tauri::Builder::default()
-        .plugin(tauri_plugin_localhost::Builder::new(port).build())
+    if !is_dev {
+        builder = builder.plugin(tauri_plugin_localhost::Builder::new(port).build());
+    }
+
+    builder
         .setup(move |app| {
-            if cfg!(debug_assertions) {
+            let mut url = format!("http://localhost:{}", port).parse()?;
+
+            if is_dev {
                 app.handle().plugin(
                     tauri_plugin_log::Builder::default()
                         .level(log::LevelFilter::Info)
                         .build(),
                 )?;
+
+                url = app
+                    .config()
+                    .build
+                    .dev_url
+                    .as_ref()
+                    .expect("dev_url must be set in tauri.conf.json")
+                    .as_str()
+                    .parse()?;
             }
-            let url = format!("http://localhost:{}", port).parse()?;
+
             WebviewWindowBuilder::new(app, "main".to_string(), WebviewUrl::External(url))
                 .title("Localhost Example")
                 .build()?;
