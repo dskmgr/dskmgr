@@ -6,7 +6,7 @@
 // Only necessary if you have an import from `$env/static/public`
 /// <reference types="../.svelte-kit/ambient.d.ts" />
 
-import { PUBLIC_BACKEND_ENDPOINT } from '$env/static/public';
+import * as env from '$env/static/public';
 
 // This gives `self` the correct types
 const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
@@ -20,7 +20,9 @@ self.addEventListener('activate', (event) => {
 	event.waitUntil(self.clients.claim()); // Take control of all clients immediately
 });
 
-const targetURL = new URL(PUBLIC_BACKEND_ENDPOINT);
+const targetURL = new URL(
+	(env as unknown as { PUBLIC_BACKEND_ENDPOINT: string }).PUBLIC_BACKEND_ENDPOINT
+);
 
 self.addEventListener('fetch', (event) => {
 	const url = new URL(event.request.url);

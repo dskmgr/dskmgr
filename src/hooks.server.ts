@@ -1,8 +1,14 @@
 import type { Handle } from '@sveltejs/kit';
 
+process.on('SIGINT', function () {
+	process.exit();
+});
+
 const ALLOWED_ORIGINS = [
-	'http://localhost:5173', // frontend dev
-	'http://localhost:3000' // frontend server
+	'http://localhost:5173',
+	'http://localhost:6283',
+	'http://localhost:9527',
+	'http://localhost:3000'
 ];
 
 export const handle: Handle = async ({ event, resolve }) => {
