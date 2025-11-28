@@ -1,0 +1,26 @@
+services:
+  database:
+    container_name: database
+    image: "postgres:15.15"
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    volumes:
+      - ./hosting/data/db/:/var/lib/postgresql/data/
+  storage:
+    container_name: storage
+    image: "alpine/minio:RELEASE.2025-10-15T17-29-55Z"
+    restart: unless-stopped
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./hosting/data/storage/:/data/
