@@ -1,20 +1,20 @@
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+import { auth } from '$lib/server/auth';
+import { svelteKitHandler } from 'better-auth/svelte-kit';
+import { building } from '$app/environment';
+import { ALLOWED_ORIGINS } from '$lib/config/origins';
 
 process.on('SIGINT', function () {
 	process.exit();
 });
 
-const ALLOWED_ORIGINS = [
-	'http://localhost:5173',
-	'http://localhost:6283',
-	'http://localhost:9527',
-	'http://localhost:3000'
-];
-
-export const handle: Handle = async ({ event, resolve }) => {
+const handleRemoteFunctionsProxy: Handle = async ({ event, resolve }) => {
+	console.log('Incoming request for:', event.url.href);
 	const origin = event.request.headers.get('origin');
 	const isRemoteCall = event.request.headers.has('X-SvelteKit-Remote');
 	const isRemotePath = event.url.pathname.startsWith('/_app/remote/');
+	const isAuthApiCall = event.url.pathname.startsWith('/api/auth/');
 	const isAllowedOrigin = origin && ALLOWED_ORIGINS.includes(origin);
 	const isGetRequest = event.request.method === 'GET' || event.request.method === 'HEAD';
 
@@ -42,7 +42,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const res = await resolve(event);
 
 	// Add CORS headers for remote function calls
-	if (isRemoteCall || isRemotePath) {
+	if (isRemoteCall || isRemotePath || isAuthApiCall) {
 		res.headers.append('Vary', 'Origin');
 
 		if (isAllowedOrigin) {
@@ -58,3 +58,22 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return res;
 };
+
+const handleAuthApiRequests: Handle = ({ event, resolve }) => {
+	return svelteKitHandler({ event, resolve, auth, building });
+};
+
+const handleAuthSession: Handle = async ({ event, resolve }) => {
+	const session = await auth.api.getSession({
+		headers: event.request.headers
+	});
+	console.log('Session loaded in handle:', session);
+	event.locals.auth = session;
+	return resolve(event);
+};
+
+export const handle = sequence(
+	handleRemoteFunctionsProxy,
+	handleAuthApiRequests,
+	handleAuthSession
+);

@@ -26,7 +26,13 @@ const targetURL = new URL(
 
 self.addEventListener('fetch', (event) => {
 	const url = new URL(event.request.url);
-	if (!url.pathname.startsWith('/_app/remote/')) return;
+	const isRemoteFunctionCall = url.pathname.startsWith('/_app/remote/');
+	const isAuthAPICall = url.pathname.startsWith('/api/auth/');
+
+	// Only proxy remote function calls and auth API calls
+	if (!isRemoteFunctionCall && !isAuthAPICall) {
+		return; // Let the request proceed as normal
+	}
 
 	const newUrl = new URL(event.request.url);
 	newUrl.host = targetURL.host;
@@ -36,8 +42,11 @@ self.addEventListener('fetch', (event) => {
 		try {
 			const req = event.request.clone();
 			const headers = new Headers(req.headers);
-			// Always mark as remote function call to ensure CORS headers
-			headers.set('X-SvelteKit-Remote', 'true');
+
+			if (isRemoteFunctionCall) {
+				// Always mark as remote function call to ensure CORS headers
+				headers.set('X-SvelteKit-Remote', 'true');
+			}
 
 			const init: RequestInit = {
 				method: req.method,
