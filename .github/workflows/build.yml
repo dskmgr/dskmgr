@@ -49,6 +49,7 @@ jobs:
       - uses: tauri-apps/tauri-action@v0.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLIC_BACKEND_ENDPOINT: ${{ vars.BACKEND_ENDPOINT }}
         with:
           tagName: ${{ github.ref_name }} # the action automatically replaces \_\_VERSION\_\_ with the app version.
           releaseName: 'dskmgr ${{ github.ref_name }}'
