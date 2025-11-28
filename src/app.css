@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
+    logs: false;
+}
