@@ -6,8 +6,6 @@ if (process.env.ADAPTER == 'static') {
 	if (!process.env.PUBLIC_BACKEND_ENDPOINT) {
 		throw new Error('PUBLIC_BACKEND_ENDPOINT must be set when using the static adapter');
 	}
-} else if (!['node', 'static'].includes(process.env.ADAPTER)) {
-	throw new Error("ADAPTER must be either 'node' or 'static'");
 }
 
 /** @type {import('@sveltejs/kit').Config} */
