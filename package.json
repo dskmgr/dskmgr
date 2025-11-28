@@ -27,7 +27,9 @@
 		"@sveltejs/kit": "^2.47.1",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@types/node": "^22",
+		"@types/pg": "^8.15.6",
 		"@vitest/browser": "^3.2.4",
+		"dotenv": "^17.2.3",
 		"eslint": "^9.38.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
@@ -35,6 +37,7 @@
 		"playwright": "^1.56.1",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
+		"prisma": "^7.0.1",
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
 		"typescript": "^5.9.3",
@@ -45,6 +48,8 @@
 		"vitest-browser-svelte": "^1.1.0"
 	},
 	"dependencies": {
+		"@prisma/adapter-pg": "^7.0.1",
+		"@prisma/client": "^7.0.1",
 		"@tailwindcss/vite": "^4.1.17",
 		"daisyui": "^5.5.5",
 		"tailwindcss": "^4.1.17"

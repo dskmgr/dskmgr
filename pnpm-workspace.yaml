@@ -1,5 +1,7 @@
 onlyBuiltDependencies:
+  - '@prisma/engines'
   - esbuild
+  - prisma
 
 patchedDependencies:
   '@sveltejs/kit': patches/@sveltejs__kit.patch
