@@ -33,7 +33,7 @@ pub fn run() {
             }
 
             WebviewWindowBuilder::new(app, "main".to_string(), WebviewUrl::External(url))
-                .title("Localhost Example")
+                .title("dskmgr")
                 .build()?;
             Ok(())
         })
