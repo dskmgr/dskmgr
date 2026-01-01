@@ -16,10 +16,11 @@ services:
     image: "rustfs/rustfs:1.0.0-alpha.78"
     restart: unless-stopped
     ports:
-      - "${MINIO_PORT}:9000"
-      - "${MINIO_CONSOLE_PORT}:9001"
+      - "${MINIO_PORT}:${MINIO_PORT}"
+      - "${MINIO_CONSOLE_PORT}:${MINIO_CONSOLE_PORT}"
     environment:
-      RUSTFS_ADDRESS: 9000
+      RUSTFS_ADDRESS: "0.0.0.0:${MINIO_PORT}"
+      RUSTFS_CONSOLE_ADDRESS: "0.0.0.0:${MINIO_CONSOLE_PORT}"
       RUSTFS_ACCESS_KEY: "${MINIO_ROOT_USER}"
       RUSTFS_SECRET_KEY: "${MINIO_ROOT_PASSWORD}"
     volumes:
