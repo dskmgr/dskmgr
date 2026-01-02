@@ -16,13 +16,13 @@ services:
     image: "rustfs/rustfs:1.0.0-alpha.78"
     restart: unless-stopped
     ports:
-      - "${MINIO_PORT}:${MINIO_PORT}"
-      - "${MINIO_CONSOLE_PORT}:${MINIO_CONSOLE_PORT}"
+      - "${S3_PORT}:${S3_PORT}"
+      - "${S3_CONSOLE_PORT}:${S3_CONSOLE_PORT}"
     environment:
-      RUSTFS_ADDRESS: "0.0.0.0:${MINIO_PORT}"
-      RUSTFS_CONSOLE_ADDRESS: "0.0.0.0:${MINIO_CONSOLE_PORT}"
-      RUSTFS_ACCESS_KEY: "${MINIO_ROOT_USER}"
-      RUSTFS_SECRET_KEY: "${MINIO_ROOT_PASSWORD}"
+      RUSTFS_ADDRESS: "0.0.0.0:${S3_PORT}"
+      RUSTFS_CONSOLE_ADDRESS: "0.0.0.0:${S3_CONSOLE_PORT}"
+      RUSTFS_ACCESS_KEY: "${S3_ROOT_USER}"
+      RUSTFS_SECRET_KEY: "${S3_ROOT_PASSWORD}"
     volumes:
       - ./hosting/data/storage/data:/data
       - ./hosting/data/storage/logs:/logs
